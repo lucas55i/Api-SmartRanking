@@ -25,7 +25,7 @@ export class JogadoresService {
   }
 
   async consultarTodosJogadores(): Promise<Jogador[]> {
-    return this.jogadores;
+    return await this.jogadorModel.find().exec();
   }
 
   async consultarJogadorPeloEmail(email: string): Promise<Jogador> {
