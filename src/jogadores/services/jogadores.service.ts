@@ -40,13 +40,8 @@ export class JogadoresService {
     return jogadorEncontrado;
   }
 
-  async deletarJogador(email: string): Promise<void> {
-    const jogadorEncontrado = this.jogadores.find(
-      (jogador) => jogador.email === email,
-    );
-    this.jogadores = this.jogadores.filter(
-      (jogador) => jogador.email !== jogadorEncontrado.email,
-    );
+  async deletarJogador(email: string): Promise<any> {
+    return await this.jogadorModel.remove({ email }).exec();
   }
 
   private async criar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
