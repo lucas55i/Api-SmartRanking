@@ -52,20 +52,6 @@ export class JogadoresService {
   private async criar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
     const jogadorCriado = new this.jogadorModel(criarJogadorDto);
     return await jogadorCriado.save();
-
-    // const { nome, telefoneCelular, email } = criarJogadorDto;
-
-    // const jogador: Jogador = {
-    //   _id: uuidv4(),
-    //   nome,
-    //   telefoneCelular,
-    //   email,
-    //   ranking: 'A',
-    //   posicaoRanking: 1,
-    //   urlFotoJogador: 'www.google.com',
-    // };
-    // this.logger.log(`criaJogadorDto: ${JSON.stringify(jogador)}`);
-    // this.jogadores.push(jogador);
   }
 
   private atualizar(
