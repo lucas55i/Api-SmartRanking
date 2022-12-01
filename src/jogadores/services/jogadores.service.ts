@@ -29,9 +29,8 @@ export class JogadoresService {
   }
 
   async consultarJogadorPeloEmail(email: string): Promise<Jogador> {
-    const jogadorEncontrado = this.jogadores.find(
-      (jogador) => jogador.email === email,
-    );
+    const jogadorEncontrado = await this.jogadorModel.findOne({ email }).exec();
+
     if (!jogadorEncontrado) {
       throw new NotFoundException(
         `Jogador com o e-mail ${email} não encontrado`,
