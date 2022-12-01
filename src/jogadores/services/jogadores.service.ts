@@ -10,14 +10,15 @@ export class JogadoresService {
     @InjectModel('Jogador') private readonly jogadorModel: Model<Jogador>,
   ) {}
 
-  async criarAtualizarJogador(criarJogadorDto: CriarJogadorDto): Promise<void> {
-    const { email } = criarJogadorDto;
+  async criarAtualizarJogador(criaJogadorDto: CriarJogadorDto): Promise<void> {
+    const { email } = criaJogadorDto;
+
     const jogadorEncontrado = await this.jogadorModel.findOne({ email }).exec();
 
     if (jogadorEncontrado) {
-      this.atualizar(jogadorEncontrado);
+      await this.atualizar(criaJogadorDto);
     } else {
-      this.criar(criarJogadorDto);
+      await this.criar(criaJogadorDto);
     }
   }
 
@@ -40,15 +41,15 @@ export class JogadoresService {
     return await this.jogadorModel.remove({ email }).exec();
   }
 
-  private async criar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
-    const jogadorCriado = new this.jogadorModel(criarJogadorDto);
+  private async criar(criaJogadorDto: CriarJogadorDto): Promise<Jogador> {
+    const jogadorCriado = new this.jogadorModel(criaJogadorDto);
     return await jogadorCriado.save();
   }
 
   private async atualizar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
     return await this.jogadorModel
       .findOneAndUpdate(
-        { email: criarJogadorDto.nome },
+        { email: criarJogadorDto.email },
         { $set: criarJogadorDto },
       )
       .exec();
