@@ -18,7 +18,7 @@ export class JogadoresService {
     const jogadorEncontrado = await this.jogadorModel.findOne({ email }).exec();
 
     if (jogadorEncontrado) {
-      this.atualizar(jogadorEncontrado, criarJogadorDto);
+      this.atualizar(jogadorEncontrado);
     } else {
       this.criar(criarJogadorDto);
     }
