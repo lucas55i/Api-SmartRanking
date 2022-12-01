@@ -1,14 +1,11 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CriarJogadorDto } from '../dtos/criar-jogador.dto';
 import { Jogador } from '../interfaces/jogador.interface';
-import { v4 as uuidv4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class JogadoresService {
-  private readonly logger = new Logger(JogadoresService.name);
-  private jogadores: Jogador[] = [];
   constructor(
     @InjectModel('Jogador') private readonly jogadorModel: Model<Jogador>,
   ) {}
