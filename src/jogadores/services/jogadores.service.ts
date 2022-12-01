@@ -54,11 +54,12 @@ export class JogadoresService {
     return await jogadorCriado.save();
   }
 
-  private atualizar(
-    jogadorEncontrado: Jogador,
-    criarJogadorDto: CriarJogadorDto,
-  ): void {
-    const { nome } = criarJogadorDto;
-    jogadorEncontrado.nome = nome;
+  private async atualizar(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
+    return await this.jogadorModel
+      .findOneAndUpdate(
+        { email: criarJogadorDto.nome },
+        { $set: criarJogadorDto },
+      )
+      .exec();
   }
 }
