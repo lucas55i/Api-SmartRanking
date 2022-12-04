@@ -26,12 +26,12 @@ export class JogadoresService {
     return await this.jogadorModel.find().exec();
   }
 
-  async consultarJogadorPeloEmail(email: string): Promise<Jogador> {
-    const jogadorEncontrado = await this.jogadorModel.findOne({ email }).exec();
+  async consultarJogadorPeloId(_id: string): Promise<Jogador> {
+    const jogadorEncontrado = await this.jogadorModel.findOne({ _id }).exec();
 
     if (!jogadorEncontrado) {
       throw new NotFoundException(
-        `Jogador com o e-mail ${email} não encontrado`,
+        `Jogador com o e-mail ${_id} não encontrado`,
       );
     }
     return jogadorEncontrado;

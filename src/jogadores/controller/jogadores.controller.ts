@@ -6,7 +6,7 @@ import { JogadoresService } from '../services/jogadores.service';
 
 @Controller('api/v1/jogadores')
 export class JogadoresController {
-  constructor(private readonly jogadoresService: JogadoresService) {}
+  constructor(private readonly jogadoresService: JogadoresService) { }
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -15,18 +15,19 @@ export class JogadoresController {
   }
 
   @Get()
-  async consultarJogadores(
-    @Query('email',JogadoresValidacaoParametrosPipe) email: string,
-  ): Promise<Jogador[] | Jogador> {
-    if (email) {
-      return await this.jogadoresService.consultarJogadorPeloEmail(email);
-    } else {
-      return await this.jogadoresService.consultarTodosJogadores();
-    }
+  async consultarJogadores(): Promise<Jogador[]> {
+    return await this.jogadoresService.consultarTodosJogadores();
+  }
+
+  @Get('/:_id')
+  async consultarJogadorPeloid(
+    @Query('_id', JogadoresValidacaoParametrosPipe) _id: string,
+  ): Promise<Jogador> {
+    return await this.jogadoresService.consultarJogadorPeloId(_id);
   }
 
   @Delete()
-  async deletarJogador(@Query('email',JogadoresValidacaoParametrosPipe) email: string): Promise<void> {
+  async deletarJogador(@Query('email', JogadoresValidacaoParametrosPipe) email: string): Promise<void> {
     this.jogadoresService.deletarJogador(email);
   }
 }
