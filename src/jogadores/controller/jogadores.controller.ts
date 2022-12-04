@@ -16,7 +16,7 @@ export class JogadoresController {
 
   @Get()
   async consultarJogadores(
-    @Query('email') email: string,
+    @Query('email',JogadoresValidacaoParametrosPipe) email: string,
   ): Promise<Jogador[] | Jogador> {
     if (email) {
       return await this.jogadoresService.consultarJogadorPeloEmail(email);
@@ -26,7 +26,7 @@ export class JogadoresController {
   }
 
   @Delete()
-  async deletarJogador(@Query('email', JogadoresValidacaoParametrosPipe) email: string): Promise<void> {
+  async deletarJogador(@Query('email',JogadoresValidacaoParametrosPipe) email: string): Promise<void> {
     this.jogadoresService.deletarJogador(email);
   }
 }
