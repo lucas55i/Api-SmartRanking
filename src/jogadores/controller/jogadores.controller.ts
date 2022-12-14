@@ -30,11 +30,11 @@ export class JogadoresController {
   }
 
   @Get('/:_id')
-  async consultarJogadorPeloid(
-    @Query('_id', JogadoresValidacaoParametrosPipe) _id: string,
-  ): Promise<Jogador> {
-    return await this.jogadoresService.consultarJogadorPeloId(_id);
+  async consultarJogadorPeloId(
+      @Param('_id', JogadoresValidacaoParametrosPipe) _id: string): Promise<Jogador> {
+              return await this.jogadoresService.consultarJogadorPeloId(_id);    
   }
+
 
   @Delete('/:_id')
   async deletarJogador(@Param('_id', JogadoresValidacaoParametrosPipe) _id: string): Promise<void> {
