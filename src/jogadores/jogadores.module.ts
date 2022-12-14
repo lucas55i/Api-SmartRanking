@@ -10,5 +10,6 @@ import { JogadoresService } from './services/jogadores.service';
   ],
   controllers: [JogadoresController],
   providers: [JogadoresService],
+  exports:[JogadoresService]
 })
 export class JogadoresModule {}
