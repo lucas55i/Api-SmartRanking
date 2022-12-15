@@ -14,7 +14,6 @@ import { DesafiosService } from './service/desafios.service';
       {name: 'Partida', schema: PartidaSchema}]),
     JogadoresModule,
     CategoriasModule],
-
   controllers: [DesafiosController],
   providers:[DesafiosService]
 })

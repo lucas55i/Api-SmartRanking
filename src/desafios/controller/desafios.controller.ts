@@ -13,9 +13,9 @@ export class DesafiosController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    async criaDesafio(@Body() criarDesafio: CriarDesafioDto): Promise<Desafio>{
-        this.logger.log(`criarDesafioDto: ${JSON.stringify(criarDesafio)}`)
-        return await this.desafiosService.criarDesafio(criarDesafio)
+    async criaDesafio(@Body() criarDesafioDto: CriarDesafioDto): Promise<Desafio>{
+        this.logger.log(`criarDesafioDto: ${JSON.stringify(criarDesafioDto)}`)
+        return await this.desafiosService.criarDesafio(criarDesafioDto)
 
     }
 }
