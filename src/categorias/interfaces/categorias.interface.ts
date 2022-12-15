@@ -1,6 +1,7 @@
 import { Jogador } from "src/jogadores/interfaces/jogador.interface";
 
 export interface Categoria extends Document {
+    categoria: string;
     readonly categorias: string;
     descricao: string;
     eventos: Array<Evento>
