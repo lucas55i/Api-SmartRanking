@@ -13,37 +13,37 @@ export class DesafiosService {
     constructor(
         @InjectModel('Desafio') private readonly desafioModel: Model<Desafio>,
         @InjectModel('Partida') private readonly partidaModel: Model<Partida>,
-        private readonly categoriaService: CategoriasService, 
+        private readonly categoriaService: CategoriasService,
         private readonly jogadoresService: JogadoresService,
-        ){}
+    ) { }
     private readonly logger = new Logger(DesafiosService.name)
 
-    async criarDesafio(criarDesafioDto: CriarDesafioDto):Promise<Desafio>{
+    async criarDesafio(criarDesafioDto: CriarDesafioDto): Promise<Desafio> {
         // Verifica se os jogadores estão cadastrados
         const jogadores = await this.jogadoresService.consultarTodosJogadores()
-        
+
         criarDesafioDto.jogadores.map(jogadorDto => {
-            const jogadorFilter = jogadores.filter( jogador => jogador._id == jogadorDto._id )
+            const jogadorFilter = jogadores.filter(jogador => jogador._id == jogadorDto._id)
 
             if (jogadorFilter.length == 0) {
                 throw new BadRequestException(`O id ${jogadorDto._id} não é um jogador!`)
             }
         })
 
-        
+
         // Verificar se o solicitante é um dos jogadores da partida
-         
+
         const solicitanteEhJogadorDaPartida = await criarDesafioDto.jogadores.filter(jogador => jogador._id == criarDesafioDto.solicitante)
 
         this.logger.log(`solicitanteEhJogadorDaPartida: ${solicitanteEhJogadorDaPartida}`)
 
-        if(solicitanteEhJogadorDaPartida.length == 0) {
+        if (solicitanteEhJogadorDaPartida.length == 0) {
             throw new BadRequestException(`O solicitante deve ser um jogador da partida!`)
         }
 
-         /*
-        Descobrimos a categoria com base no ID do jogador solicitante
-        */
+        /*
+       Descobrimos a categoria com base no ID do jogador solicitante
+       */
         const categoriaDoJogador = await this.categoriaService.consultarCategoriaDoJogador(criarDesafioDto.solicitante)
 
         /*
@@ -63,4 +63,29 @@ export class DesafiosService {
         this.logger.log(`desafioCriado: ${JSON.stringify(desafioCriado)}`)
         return await desafioCriado.save()
     }
+
+    async consultarTodosDesafios(): Promise<Array<Desafio>> {
+        return await this.desafioModel.find().populate('solicitante').populate('jogadores').populate('partida').exec()
+    }
+
+    async consultarDesafiosDeUmJogador(_id: any): Promise<Array<Desafio>> {
+
+        const jogadores = await this.jogadoresService.consultarTodosJogadores()
+
+        const jogadorFilter = jogadores.filter(jogador => jogador._id == _id)
+
+        if (jogadorFilter.length == 0) {
+            throw new BadRequestException(`O id ${_id} não é um jogador!`)
+        }
+
+        return await this.desafioModel.find()
+            .where('jogadores') //  base jogadores
+            .in(_id) // parametro da requisição
+            .populate("solicitante")
+            .populate("jogadores")
+            .populate("partida")
+            .exec()
+
+    }
+
 }
