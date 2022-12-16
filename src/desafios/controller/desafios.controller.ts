@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Logger, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AtualizarCategoriaDto } from 'src/categorias/dtos/atualizar-categoria.dto';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AtribuirDesafioPartidaDto } from '../dtos/atribuir-desafio.dto';
 import { AtualizarDesafioDto } from '../dtos/atualizar-desafio.dto';
 import { CriarDesafioDto } from '../dtos/criar-desafio.dto';
 import { Desafio } from '../interfaces/desafio.interface';
@@ -12,7 +12,6 @@ export class DesafiosController {
     constructor(private readonly desafiosService: DesafiosService) { }
 
     private readonly logger = new Logger(DesafiosController.name)
-
 
     @Post()
     @UsePipes(ValidationPipe)
@@ -30,4 +29,16 @@ export class DesafiosController {
     async atualizarDesafio(@Body(DesafioStatusValidacaoPipe) atualizarDesafioDto: AtualizarDesafioDto, @Param('desafio') _id: string): Promise<void> {
         await this.desafiosService.atualizarDesafio(_id, atualizarDesafioDto)
     }
+
+    @Post('/:desafio/partida/')
+    async atribuirDesafioPartida(@Body(ValidationPipe) atribuirDesafioPartida: AtribuirDesafioPartidaDto, @Param('desafio') _id: string): Promise<void> {
+        return await this.desafiosService.atribuirDesafioPartida(_id, atribuirDesafioPartida)
+    }
+
+    @Delete('/:_id')
+    async deletarDesafio(
+        @Param('_id') _id: string): Promise<void> {
+        this.desafiosService.deletarDesafio(_id)
+    }
+
 }
