@@ -5,11 +5,13 @@ import * as momentTimezone from 'moment-timezone';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalFilters(new AllExceptionFilter)
+  app.useGlobalFilters(new AllExceptionFilter());
 
-  Date.prototype.toJSON = function(): any {
-    return momentTimezone(this).tz('America/Sao_Paulo').format('YYYY-MM-DD HH:mm:ss.SSS')
-  }
+  Date.prototype.toJSON = function (): any {
+    return momentTimezone(this)
+      .tz('America/Sao_Paulo')
+      .format('YYYY-MM-DD HH:mm:ss.SSS');
+  };
 
   await app.listen(8080);
 }

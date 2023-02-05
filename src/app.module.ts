@@ -4,7 +4,6 @@ import { JogadoresModule } from './jogadores/jogadores.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { DesafiosModule } from './desafios/desafios.module';
 
-
 @Module({
   imports: [
     MongooseModule.forRoot(
